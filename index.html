@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>SD Churros - Sistema de Gestão</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- MENU LATERAL -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            SD CHURROS
+        </div>
+
+        <div class="menu">
+
+            <button onclick="mostrarPagina('dashboard')">
+                📊 Dashboard
+            </button>
+
+            <button onclick="mostrarPagina('produtos')">
+                🍫 Produtos
+            </button>
+
+            <button onclick="mostrarPagina('comandas')">
+                🧾 Comandas
+            </button>
+
+            <button onclick="mostrarPagina('ifood')">
+                🛵 Comanda iFood
+            </button>
+
+            <button onclick="mostrarPagina('saidas')">
+                💸 Saídas
+            </button>
+
+            <button onclick="mostrarPagina('vendas')">
+                📋 Histórico de Vendas
+            </button>
+
+            <button onclick="mostrarPagina('relatorio')">
+                📈 Relatório de Vendas
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- CONTEÚDO -->
+
+    <main class="main">
+
+
+        <!-- ==============================
+             DASHBOARD
+        =============================== -->
+
+        <section id="dashboard" class="page active">
+
+            <h1>Dashboard</h1>
+
+            <div class="form-box">
+
+                <h2>Filtro de período</h2>
+
+                <div class="filtro">
+
+                    <div>
+
+                        <label>Data inicial</label>
+
+                        <input
+                            type="date"
+                            id="dataInicial">
+
+                    </div>
+
+                    <div>
+
+                        <label>Data final</label>
+
+                        <input
+                            type="date"
+                            id="dataFinal">
+
+                    </div>
+
+                    <button
+                        class="primary"
+                        onclick="atualizarDashboard()">
+
+                        Filtrar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="dashboard">
+
+                <div class="card">
+
+                    <h3>💰 Total Bruto</h3>
+
+                    <strong
+                        class="bruto"
+                        id="totalBruto">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>🛵 Total iFood</h3>
+
+                    <strong
+                        class="ifood-total"
+                        id="totalIfoodDashboard">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>💸 Total de Saídas</h3>
+
+                    <strong
+                        class="saidas"
+                        id="totalSaidas">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>💵 Total Líquido</h3>
+
+                    <strong
+                        class="liquido"
+                        id="totalLiquido">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>🧾 Quantidade de Vendas</h3>
+
+                    <strong
+                        class="vendas"
+                        id="quantidadeVendas">
+
+                        0
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==============================
+             PRODUTOS
+        =============================== -->
+
+        <section id="produtos" class="page">
+
+            <h1>Produtos</h1>
+
+            <div class="form-box">
+
+                <h2>Cadastrar Produto</h2>
+
+                <div class="form-grid">
+
+                    <div>
+
+                        <label>Nome do produto</label>
+
+                        <input
+                            id="produtoNome"
+                            placeholder="Ex: Churros Chocolate">
+
+                    </div>
+
+                    <div>
+
+                        <label>Preço</label>
+
+                        <input
+                            id="produtoPreco"
+                            type="number"
+                            step="0.01"
+                            placeholder="0,00">
+
+                    </div>
+
+                    <div>
+
+                        <label>Categoria</label>
+
+                        <select id="produtoCategoria">
+
+                            <option>Churros</option>
+                            <option>Bebidas</option>
+                            <option>Batata</option>
+                            <option>Sobremesa</option>
+                            <option>Outro</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+                <button
+                    class="primary"
+                    onclick="adicionarProduto()">
+
+                    Adicionar Produto
+
+                </button>
+
+            </div>
+
+
+            <div class="table-box">
+
+                <h2>Produtos cadastrados</h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Produto</th>
+                            <th>Categoria</th>
+                            <th>Preço</th>
+                            <th>Ação</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="listaProdutos"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==============================
+             COMANDAS
+        =============================== -->
+
+        <section id="comandas" class="page">
+
+            <h1>Nova Comanda</h1>
+
+            <div class="comanda-container">
+
+
+                <div class="produtos-comanda">
+
+                    <h2>Produtos</h2>
+
+                    <div id="produtosComanda"></div>
+
+                </div>
+
+
+                <div class="comanda">
+
+                    <h2>Comanda</h2>
+
+                    <div id="itensComanda">
+
+                        <p>
+                            Nenhum produto adicionado.
+                        </p>
+
+                    </div>
+
+
+                    <div class="total-comanda">
+
+                        Total:
+
+                        <span id="totalComanda">
+                            R$ 0,00
+                        </span>
+
+                    </div>
+
+
+                    <label>
+                        Forma de pagamento
+                    </label>
+
+                    <select id="pagamentoComanda">
+
+                        <option value="Pix">
+                            Pix
+                        </option>
+
+                        <option value="Dinheiro">
+                            Dinheiro
+                        </option>
+
+                        <option value="Cartão">
+                            Cartão
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        class="primary"
+                        onclick="finalizarComanda()">
+
+                        Finalizar Venda
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==============================
+             IFOOD
+        =============================== -->
+
+        <section id="ifood" class="page">
+
+            <h1>Comanda iFood</h1>
+
+
+            <div class="form-box">
+
+                <h2>Registrar Venda iFood</h2>
+
+                <div class="form-grid">
+
+
+                    <div>
+
+                        <label>Produto</label>
+
+                        <input
+                            id="ifoodProduto"
+                            placeholder="Ex: Combo Churros">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>Valor</label>
+
+                        <input
+                            id="ifoodValor"
+                            type="number"
+                            step="0.01"
+                            placeholder="0,00">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>Número do pedido</label>
+
+                        <input
+                            id="ifoodPedido"
+                            placeholder="Ex: #1234">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>Forma de pagamento</label>
+
+                        <select id="ifoodPagamento">
+
+                            <option value="Cartão">
+                                Cartão
+                            </option>
+
+                            <option value="Dinheiro">
+                                Dinheiro
+                            </option>
+
+                            <option value="Aplicativo">
+                                Aplicativo
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    class="primary"
+                    onclick="adicionarIfood()">
+
+                    Adicionar Venda
+
+                </button>
+
+            </div>
+
+
+            <!-- RESUMO IFOOD -->
+
+            <div class="dashboard">
+
+                <div class="card">
+
+                    <h3>💳 Vendas no Cartão</h3>
+
+                    <strong id="totalIfoodCartao">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>💵 Vendas no Dinheiro</h3>
+
+                    <strong id="totalIfoodDinheiro">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>📱 Vendas no Aplicativo</h3>
+
+                    <strong id="totalIfoodAplicativo">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>🧾 Total iFood</h3>
+
+                    <strong id="totalIfood">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="table-box">
+
+                <h2>Vendas iFood</h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Produto</th>
+                            <th>Pedido</th>
+                            <th>Pagamento</th>
+                            <th>Valor</th>
+                            <th>Ação</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="listaIfood"></tbody>
+
+                </table>
+
+            </div>
+
+
+            <button
+                class="primary btn-finalizar-ifood"
+                onclick="finalizarIfood()">
+
+                Finalizar Vendas iFood
+
+            </button>
+
+        </section>
+
+
+
+        <!-- ==============================
+             SAÍDAS
+        =============================== -->
+
+        <section id="saidas" class="page">
+
+            <h1>Saídas / Gastos</h1>
+
+
+            <div class="form-box">
+
+                <h2>Registrar Saída</h2>
+
+                <div class="form-grid">
+
+
+                    <div>
+
+                        <label>Data</label>
+
+                        <input
+                            type="date"
+                            id="saidaData">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>Descrição</label>
+
+                        <input
+                            id="saidaDescricao"
+                            placeholder="Ex: Compra de chocolate">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>Valor</label>
+
+                        <input
+                            type="number"
+                            step="0.01"
+                            id="saidaValor"
+                            placeholder="0,00">
+
+                    </div>
+
+                </div>
+
+
+                <label>Categoria</label>
+
+                <select id="saidaCategoria">
+
+                    <option>Ingredientes</option>
+                    <option>Embalagens</option>
+                    <option>Combustível</option>
+                    <option>Funcionário</option>
+                    <option>Equipamentos</option>
+                    <option>Contas</option>
+                    <option>Outros</option>
+
+                </select>
+
+
+                <button
+                    class="primary"
+                    onclick="adicionarSaida()">
+
+                    Registrar Saída
+
+                </button>
+
+            </div>
+
+
+            <div class="table-box">
+
+                <h2>Gastos registrados</h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Data</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Valor</th>
+                            <th>Ação</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="listaSaidas"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==============================
+             HISTÓRICO
+        =============================== -->
+
+        <section id="vendas" class="page">
+
+            <h1>Histórico de Vendas</h1>
+
+
+            <div class="table-box">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Data</th>
+                            <th>Origem</th>
+                            <th>Itens</th>
+                            <th>Pagamento</th>
+                            <th>Total</th>
+                            <th>Ações</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="listaVendas"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==============================
+             RELATÓRIO
+        =============================== -->
+
+        <section id="relatorio" class="page">
+
+            <h1>📈 Relatório de Vendas</h1>
+
+
+            <div class="form-box">
+
+                <h2>Período do relatório</h2>
+
+
+                <div class="filtro">
+
+                    <div>
+
+                        <label>
+                            Data inicial
+                        </label>
+
+                        <input
+                            type="date"
+                            id="relatorioDataInicial">
+
+                    </div>
+
+
+                    <div>
+
+                        <label>
+                            Data final
+                        </label>
+
+                        <input
+                            type="date"
+                            id="relatorioDataFinal">
+
+                    </div>
+
+
+                    <button
+                        class="primary"
+                        onclick="atualizarRelatorio()">
+
+                        Gerar Relatório
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CARDS DO RELATÓRIO -->
+
+            <div class="dashboard">
+
+
+                <div class="card relatorio-ifood">
+
+                    <h3>
+                        🛵 Vendas iFood
+                    </h3>
+
+                    <strong
+                        id="relatorioIfood">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        💵 Vendas no Dinheiro
+                    </h3>
+
+                    <strong
+                        id="relatorioDinheiro">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        📱 Vendas no Pix
+                    </h3>
+
+                    <strong
+                        id="relatorioPix">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        💳 Vendas no Cartão
+                    </h3>
+
+                    <strong
+                        id="relatorioCartao">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        💰 Total Bruto
+                    </h3>
+
+                    <strong
+                        class="bruto"
+                        id="relatorioBruto">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        💸 Saídas
+                    </h3>
+
+                    <strong
+                        class="saidas"
+                        id="relatorioSaidas">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        💵 Total Líquido
+                    </h3>
+
+                    <strong
+                        class="liquido"
+                        id="relatorioLiquido">
+
+                        R$ 0,00
+
+                    </strong>
+
+                </div>
+
+
+                <div class="card">
+
+                    <h3>
+                        🧾 Quantidade de Vendas
+                    </h3>
+
+                    <strong
+                        id="relatorioQuantidade">
+
+                        0
+
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+    </main>
+
+
+    <!-- MODAL EDITAR VENDA -->
+
+    <div
+        id="modalEdicao"
+        class="modal">
+
+        <div class="modal-content">
+
+            <span
+                class="fechar"
+                onclick="fecharEdicao()">
+
+                &times;
+
+            </span>
+
+
+            <h2>
+                ✏️ Editar Venda
+            </h2>
+
+
+            <input
+                type="hidden"
+                id="editarVendaId">
+
+
+            <label>
+                Data
+            </label>
+
+            <input
+                type="datetime-local"
+                id="editarVendaData">
+
+
+            <label>
+                Origem
+            </label>
+
+            <select id="editarVendaOrigem">
+
+                <option value="Balcão">
+                    Balcão
+                </option>
+
+                <option value="iFood">
+                    iFood
+                </option>
+
+            </select>
+
+
+            <label>
+                Itens
+            </label>
+
+            <input
+                id="editarVendaItens"
+                placeholder="Ex: 2x Churros Chocolate">
+
+
+            <label>
+                Forma de pagamento
+            </label>
+
+            <select id="editarVendaPagamento">
+
+                <option value="Dinheiro">
+                    Dinheiro
+                </option>
+
+                <option value="Pix">
+                    Pix
+                </option>
+
+                <option value="Cartão">
+                    Cartão
+                </option>
+
+                <option value="Aplicativo">
+                    Aplicativo
+                </option>
+
+            </select>
+
+
+            <label>
+                Valor total
+            </label>
+
+            <input
+                type="number"
+                step="0.01"
+                id="editarVendaValor">
+
+
+            <button
+                class="primary"
+                onclick="salvarEdicaoVenda()">
+
+                Salvar Alterações
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
